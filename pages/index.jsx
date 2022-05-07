@@ -123,7 +123,7 @@ function HomePage() {
                       <tr key={key}>
                         <td>{key + 1}</td>
                         <td>
-                          <a className='hover:underline transition' href={doc.url}>
+                          <a target='_blank' rel='noreferrer' className='hover:underline transition' href={doc.url}>
                             {doc.name.substring(0, 30)}{doc.name.length > 29 ? "..." : undefined}
                           </a>
                         </td>
