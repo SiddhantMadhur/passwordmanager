@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 th{
-  padding-inline: 2rem;
+  padding-inline: 0.2rem;
 }
-
 
 html,
 body {

@@ -48,9 +48,6 @@ function Settings() {
             Not sure how to do it? Follow the instructions below.
           </div>
         </div>
-        <div>
-
-        </div>
       </div>
     </div>
   )

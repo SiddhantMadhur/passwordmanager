@@ -4,6 +4,8 @@ import Link from 'next/link'
 
 function HomePage() {
 
+  const [filter, setFilter] = useState('')
+
   const [passwords, setPasswords] = useState([{
     name: '',
     password: '',
@@ -11,9 +13,13 @@ function HomePage() {
     username: ''
   }])
 
-  useEffect(()=>{
+  useEffect(() => {
     setPasswords(JSON.parse(localStorage.getItem('passwords')))
-  },[])
+  }, [])
+
+  useEffect(() => {
+    console.log(passwords)
+  }, [passwords])
 
   return (
     <div>
@@ -31,18 +37,68 @@ function HomePage() {
 
         </div>
       </div>
+      <div className='flex justify-center my-4'>
+        <input className='text-black' type="text" placeholder='Search...' onChange={(e)=>setFilter(e.target.value)} />
+      </div>
       <div>
-        <table className='mx-auto'>
-          <thead>
-            <th>Name</th>
-            <th>url</th>
-            <th>username</th>
-            <th>password</th>
-          </thead>
-          <tbody>
 
-          </tbody>
-        </table>
+        {
+          passwords !== null ? (
+            <table className='mx-auto w-[800px]'>
+              <tbody>
+                <tr className='text-left'>
+                  <th>Index</th>
+                  <th>URL</th>
+                  <th>Email</th>
+                  <th>Password</th>
+                </tr>
+                {
+                  passwords.filter((doc) => {
+                    return (doc.name.toLowerCase().includes(filter.toLowerCase()) || doc.username.toLowerCase().includes(filter.toLowerCase()))
+                  }).map((doc, key) => {
+                    let show = false
+                    let URL = doc.url.replace('http://', '').replace('https://', '').replace('www.', '')
+                    let temp = ''
+                    let chk = true;
+                    for (let i; i < URL.length; i++) {
+                      if (chk) {
+                        if (URL.charAt(i) === '/') {
+                          chk = false
+                        } else {
+                          temp = temp + URL.charAt(i)
+                        }
+                      }
+                    }
+                    URL = temp
+
+                    return (
+                      <tr key={key}>
+                        <td>{key + 1}</td>
+                        <td>
+                          <a className='hover:underline transition' href={doc.url}>
+                            {doc.name.substring(0, 30)}{doc.name.length > 29 ? "..." : undefined}
+                          </a>
+                        </td>
+                        <td>{doc.username}</td>
+                        <td>
+                          <button onClick={() => {
+                            alert("Password: " + doc.password)
+                          }}>
+                            *******
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          ) : (
+            <div className='text-center text-2xl'>
+              You dont have any passwords. <Link href={'/settings'}><a className='text-blue-400 hover:text-blue-600 underline transition' >Please import them from here.</a></Link>
+            </div>
+          )
+        }
       </div>
     </div>
   )
