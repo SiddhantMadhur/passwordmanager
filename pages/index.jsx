@@ -4,6 +4,11 @@ import Link from 'next/link'
 
 function HomePage() {
 
+  const [reload, setReload] = useState(-1)
+  const [tempURL, setTempURL] = useState('')
+  const [tempEmail, setEmail] = useState('')
+  const [tempPassword, setTempPassword] = useState('')
+
   const [filter, setFilter] = useState('')
 
   const [passwords, setPasswords] = useState([{
@@ -15,7 +20,7 @@ function HomePage() {
 
   useEffect(() => {
     setPasswords(JSON.parse(localStorage.getItem('passwords')))
-  }, [])
+  }, [reload])
 
   useEffect(() => {
     console.log(passwords)
@@ -38,13 +43,55 @@ function HomePage() {
         </div>
       </div>
       <div className='flex justify-center my-4'>
-        <input className='text-black' type="text" placeholder='Search...' onChange={(e)=>setFilter(e.target.value)} />
+        <input className='text-black' type="text" placeholder='Search...' onChange={(e) => setFilter(e.target.value)} />
+      </div>
+      <div className='mx-auto max-w-fit my-3'>
+        <div className='text-xl my-2'>
+          Add Password:
+        </div>
+        <div className='flex flex-col gap-3 text-black'>
+          <div>
+            <input className='w-full' type="text" placeholder='URL' onChange={e=>setTempURL(e.target.value)} />
+          </div>
+          <div className='flex gap-x-3'>
+            <input type="text" placeholder='Email' onChange={e=>setEmail(e.target.value)} />
+            <input type="text" placeholder='Password' onChange={e=>setTempPassword(e.target.value)} />
+          </div>
+          <div className='text-center'>
+            <button onClick={()=>{
+              let URL = tempURL.replace('http://', '').replace('https://', '').replace('www.', '')
+              let tempName = '';
+              let chk = true;
+              for (let i = 0; i < URL.length; i++) {
+                if (chk) {
+                  if (URL.charAt(i) === '/') {
+                    chk = false
+                  } else {
+                    tempName = tempName + URL.charAt(i)
+                  }
+                }
+              }
+              const tempInput = [{
+                username: tempEmail,
+                password: tempPassword,
+                name: tempName,
+                url: tempURL
+              }]
+              
+              const temp = tempInput.concat(JSON.parse(localStorage.getItem('passwords')))
+              localStorage.setItem('passwords', JSON.stringify(temp))
+              setReload(reload+1)
+            }} className='bg-gray-700 text-white hover:bg-gray-500 px-2 py-1 rounded-lg text-lg'>
+              ADD
+            </button>
+          </div>
+        </div>
       </div>
       <div>
 
         {
           passwords !== null ? (
-            <table className='mx-auto w-[800px]'>
+            <table className='mx-auto w-[770px]'>
               <tbody>
                 <tr className='text-left'>
                   <th>Index</th>
