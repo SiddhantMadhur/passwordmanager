@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+input{
+  padding-block: 3px;
+  padding-inline: 12px;
+  border-radius: 6px;
+}
+
 th{
   padding-inline: 0.2rem;
 }

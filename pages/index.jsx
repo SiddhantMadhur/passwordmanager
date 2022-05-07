@@ -51,14 +51,14 @@ function HomePage() {
         </div>
         <div className='flex flex-col gap-3 text-black'>
           <div>
-            <input className='w-full' type="text" placeholder='URL' onChange={e=>setTempURL(e.target.value)} />
+            <input className='w-full' type="text" placeholder='URL' onChange={e => setTempURL(e.target.value)} />
           </div>
           <div className='flex gap-x-3'>
-            <input type="text" placeholder='Email' onChange={e=>setEmail(e.target.value)} />
-            <input type="text" placeholder='Password' onChange={e=>setTempPassword(e.target.value)} />
+            <input type="text" placeholder='Email' onChange={e => setEmail(e.target.value)} />
+            <input type="text" placeholder='Password' onChange={e => setTempPassword(e.target.value)} />
           </div>
           <div className='text-center'>
-            <button onClick={()=>{
+            <button onClick={() => {
               let URL = tempURL.replace('http://', '').replace('https://', '').replace('www.', '')
               let tempName = '';
               let chk = true;
@@ -77,10 +77,10 @@ function HomePage() {
                 name: tempName,
                 url: tempURL
               }]
-              
+
               const temp = tempInput.concat(JSON.parse(localStorage.getItem('passwords')))
               localStorage.setItem('passwords', JSON.stringify(temp))
-              setReload(reload+1)
+              setReload(reload + 1)
             }} className='bg-gray-700 text-white hover:bg-gray-500 px-2 py-1 rounded-lg text-lg'>
               ADD
             </button>
@@ -98,6 +98,7 @@ function HomePage() {
                   <th>URL</th>
                   <th>Email</th>
                   <th>Password</th>
+                  <th></th>
                 </tr>
                 {
                   passwords.filter((doc) => {
@@ -132,6 +133,15 @@ function HomePage() {
                             alert("Password: " + doc.password)
                           }}>
                             *******
+                          </button>
+                        </td>
+                        <td>
+                          <button className='hover:opacity-60 transition' onClick={()=>{
+                            
+                          }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
                           </button>
                         </td>
                       </tr>
