@@ -10,7 +10,11 @@ function Settings() {
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
-          localStorage.setItem('passwords', JSON.stringify(results.data))
+          if(typeof results.name !== undefined){
+            localStorage.setItem('passwords', JSON.stringify(results.data))
+          }else{
+            
+          }
         }
       })
     }
@@ -22,7 +26,7 @@ function Settings() {
 
   return (
     <div>
-      <div className='text-4xl flex justify-center gap-x-12 text-center mt-3 mb-4'>
+      <div className='text-4xl flex justify-center gap-x-12 text-center pt-3 mb-4'>
         Settings
       </div>
       <div className='text-center my-3 '>
