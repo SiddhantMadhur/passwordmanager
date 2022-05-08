@@ -1,6 +1,7 @@
 {
   "name": "passwordmanager",
-  "version": "1.1.0",
+  "author": "Siddhant Madhur",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
