@@ -42,9 +42,6 @@ function HomePage() {
 
         </div>
       </div>
-      <div className='flex justify-center my-4'>
-        <input className='text-black' type="text" placeholder='Search...' onChange={(e) => setFilter(e.target.value)} />
-      </div>
       <div className='mx-auto max-w-fit my-3'>
         <div className='text-xl my-2'>
           Add Password:
@@ -81,12 +78,16 @@ function HomePage() {
               const temp = tempInput.concat(JSON.parse(localStorage.getItem('passwords')))
               localStorage.setItem('passwords', JSON.stringify(temp))
               setReload(reload + 1)
-            }} className='bg-gray-700 text-white hover:bg-gray-500 px-2 py-1 rounded-lg text-lg'>
+            }} className='bg-gray-300 text-gray-800 font-semibold hover:bg-gray-400 transition px-2 py-1 rounded-lg text-lg'>
               ADD
             </button>
           </div>
         </div>
       </div>
+      <div className='flex justify-center my-4'>
+        <input className='text-black' type="text" placeholder='Search...' onChange={(e) => setFilter(e.target.value)} />
+      </div>
+
       <div>
 
         {
@@ -103,6 +104,14 @@ function HomePage() {
                 {
                   passwords.filter((doc) => {
                     return (doc.name.toLowerCase().includes(filter.toLowerCase()) || doc.username.toLowerCase().includes(filter.toLowerCase()))
+                  }).sort((a, b) => {
+                    if (a.name < b.name) {
+                      return -1
+                    } else if (a.name > b.name) {
+                      return 1
+                    } else {
+                      return 0
+                    }
                   }).map((doc, key) => {
                     let show = false
                     let URL = doc.url.replace('http://', '').replace('https://', '').replace('www.', '')
@@ -136,14 +145,15 @@ function HomePage() {
                           </button>
                         </td>
                         <td>
-                          <button className='hover:opacity-60 transition' onClick={()=>{
+                          <button className='hover:opacity-60 transition' onClick={() => {
                             let temp = []
-                            passwords.map((doc, i)=>{
-                              if(key!==i){
-                                temp.push(doc)
+                            passwords.map((tempDoc, i) => {
+                              if (tempDoc !== doc) {
+                                temp.push(tempDoc)
                               }
                             })
                             setPasswords(temp)
+                            localStorage.setItem('passwords', JSON.stringify(temp))
                           }}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
